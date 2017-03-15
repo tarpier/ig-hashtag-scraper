@@ -2,8 +2,11 @@ var Nightmare = require('nightmare')
 var vo = require('vo')
 var fs = require('fs')
 
-var a = [];
-var user = 'derblitz'
+let findTags = require('./findTags')
+let findUsers = require('./findUsers')
+
+var a = []
+var user = 'deichbrand_festival'
 
 vo(function* () {
     var nightmare = Nightmare({
@@ -29,7 +32,10 @@ vo(function* () {
             })
             .then(result => {
                 //console.log(result)
-                a.push(result);    
+                a.push({
+                    post: imgSources[src],
+                    comments: result
+                });
             });
     }
 
@@ -39,11 +45,24 @@ vo(function* () {
     if (err) {
         console.log('caught', err);
     } else {
-        console.log('done', a);
-        fs.writeFile(`data/${user}.json`, JSON.stringify(a), (err) => {
+        //console.log('done', a);
+        if (!fs.existsSync(`data/${user}`)) {
+            fs.mkdirSync(`data/${user}`);
+        }
+        fs.writeFile(`data/${user}/${user}-general.json`, JSON.stringify({fullcontent: a}), (err) => {
             if(err) { 
-                console.log(err);
+                console.log('initial write', err);
             }
-        });
+        })
+        fs.writeFile(`data/${user}/${user}-tags.json`, JSON.stringify({tags: findTags(a) }), err => {
+            if(err) { 
+                console.log('append for tags', err);
+            }
+        })
+        fs.writeFile(`data/${user}/${user}-users.json`, JSON.stringify({users: findUsers(a) }), err => {
+            if(err) { 
+                console.log('append for users', err);
+            }
+        })
     }
 });
