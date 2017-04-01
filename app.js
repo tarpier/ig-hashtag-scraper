@@ -6,7 +6,15 @@ let findTags = require('./findTags')
 let findUsers = require('./findUsers')
 
 var a = []
-var user = 'deichbrand_festival'
+var user = ''
+
+if(process.argv[2] !== undefined){
+    user = process.argv[2]
+} else {
+    console.log ('Please provide a Username');
+    process.exit();
+}
+
 
 vo(function* () {
     var nightmare = Nightmare({

@@ -4,7 +4,7 @@ module.exports = input => {
     
     comments.map( elementsArray => {
         elementsArray.map( element =>{
-            let tag = element.match(/#[\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00dfa-zA-Z0-9]*/g)
+            let tag = element.match(/#[\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00dfa-zA-Z0-9_]*/g)
             if(tag) {
                 tags.push(tag)    
             } 
