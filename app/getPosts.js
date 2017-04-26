@@ -9,19 +9,18 @@ module.exports = async (user) => {
         const postUrls = await nightmare
             .goto(`https://www.instagram.com/${user}/`)
             .wait('._8imhp')
-            //.click('._8imhp')
+            //.click('._8imhp') //TODO what happens when there are too few posts?
             .wait(1)
             .evaluate(() => {
                 return [...document.querySelectorAll('._8mlbc')]
                     .map((el, i) => {
                         return el.href;
-
                     });
             })
             .end()
             .catch((err) => console.error(err))
 
-        return { postUrls: postUrls };
+        return postUrls;
 
     } catch (e) {
         console.error(e)
