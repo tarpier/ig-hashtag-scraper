@@ -18,7 +18,7 @@ module.exports = async (urls) => {
                     //under 10 likes -> so likers are shown by name/profile link
                     const likers = [...document.querySelectorAll('._4zhc5.notranslate._lx2l2')]
                         .map((el) => el.href)
-                    return { likes: likers.length, likedBy: likers }
+                    return { likes: likers.length.toString(), likedBy: likers }
                 } else if (document.querySelector('._9jphp')) {
                     //this is video/boomerang/gif(?) stuff -> no likes but # of plays are shown
                     const plays = document.querySelector('._9jphp span').textContent

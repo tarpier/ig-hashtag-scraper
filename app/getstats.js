@@ -1,5 +1,6 @@
 const Nightmare = require('nightmare')
 
+//TODO does user exist / is it a private user?
 module.exports = async (user) => {
     console.log(`getting followers of: ${user}`)
     const nightmare = Nightmare({
