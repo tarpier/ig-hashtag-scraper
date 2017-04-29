@@ -4,7 +4,7 @@ const Nightmare = require('nightmare')
 module.exports = async (user) => {
     console.log(`getting followers of: ${user}`)
     const nightmare = Nightmare({
-        show: true
+        //show: true
     });
     try {
         const stats = await nightmare

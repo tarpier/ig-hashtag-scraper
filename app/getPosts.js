@@ -3,7 +3,7 @@ const Nightmare = require('nightmare')
 module.exports = async (user) => {
     console.log(`getting postUrls of: ${user}`)
     const nightmare = Nightmare({
-        show: true
+        //show: true
     });
     try {
         const postUrls = await nightmare

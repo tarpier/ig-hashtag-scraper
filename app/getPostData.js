@@ -6,7 +6,7 @@ module.exports = async (urls) => {
         
         console.log(`getting postdata of: ${url}`)
         const nightmare = Nightmare({
-            show: true
+            //show: true
         });
 
         const singlePostData = await nightmare
