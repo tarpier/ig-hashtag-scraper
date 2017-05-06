@@ -12,7 +12,7 @@ module.exports = ((users) => {
             posts: []
         }
 
-        getStats(user).then((userStats) => {
+        /*getStats(user).then((userStats) => {
             userInfo.stats = userStats
             getPostUrls(user).then((urls) => {
                 getPostData(urls).then((postData) => {
@@ -20,6 +20,8 @@ module.exports = ((users) => {
                     writeDataToDrive(user, userInfo)
                 })
             })
-        })
+        })*/
+
+        
     }
 })
