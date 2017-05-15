@@ -1,7 +1,7 @@
 module.exports = input => {
     let users = [];
 
-    let user = input.match(/@[\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00dfa-zA-Z0-9_]*/g)
+    let user = input.match(/@[\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00dfa-zA-Z0-9_\.]*/g)
     if (user) {
         users.push(user)
     }
