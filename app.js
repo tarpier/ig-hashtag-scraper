@@ -1,10 +1,10 @@
 const getStats = require('./app/getstats');
 const getPosts = require('./app/getPosts');
 const getPostData = require('./app/getPostData')
+const writeDataToDrive = require('./app/writeDataToDrive')
 const argv = require('minimist')(process.argv.slice(2));
 
 const scrapeProfile = async (users) => {
-    //TODO make this work typeof userName === array
     output = []
     for (user of users) {
         const userName = user
@@ -12,12 +12,14 @@ const scrapeProfile = async (users) => {
         const postUrls = await getPosts(userName)
         const postData = await getPostData(postUrls)
 
-        output.push({
+        singleUserData = {
             scrapingDate: Date.now(),
             username: userName,
             stats: stats,
             posts: postData
-        })
+        }
+        output.push(singleUserData)
+        writeDataToDrive(userName, singleUserData)
     }
     return output;
 }
@@ -30,5 +32,5 @@ if (typeof argv._ == undefined || argv._.length < 1) {
 
 scrapeProfile(argv._)
     .then((data) => {
-        console.log(require('util').inspect(data, false, null))
+        console.log('output done')
     })

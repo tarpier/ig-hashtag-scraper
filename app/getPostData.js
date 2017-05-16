@@ -4,6 +4,8 @@ const cheerio = require('cheerio')
 const findTags = require('./findTags')
 const findUsers = require('./findUsers')
 
+
+//TODO: these should return a promise instead of callbacks
 const getPostStats = (callback) => {
     if ($('._4zhc5.notranslate._lx2l2').length > 0) {
         //under 10 likes -> so likers are shown by name/profile link
@@ -28,6 +30,10 @@ const getPostStats = (callback) => {
     }
 }
 
+const getImageData = (imageType, callback) => {
+    console.log(imageType)
+}
+
 const getPostAge = (callback) => {
     return callback($('._379kp').attr('datetime'))
 }
@@ -47,10 +53,10 @@ const getPostComments = async (callback) => {
     if("undefined" !== typeof hashtags){
         comment.hashtags = hashtags
     }
-
-
     return callback(comment)
 }
+
+
 
 module.exports = async (urls) => {
     const postData = []
@@ -87,11 +93,12 @@ module.exports = async (urls) => {
 
         getPostComments( (comments) =>{
             singlePostData.comments = comments
+            //TODO: (low prio) get more comments
         }) 
 
-        //TODO: filter hashtags from comment
-        //TODO: filter user mentions from comment
-        //TODO: (low prio) get more comments
+        getImageData(singlePostData.postStats.type, (imageData)=>{
+            console.log(imageData)
+        })
 
 
         postData.push(singlePostData)
@@ -100,19 +107,6 @@ module.exports = async (urls) => {
     console.log('done getting post data')
     return postData;
 }
-
-
-
-
-
-/*postData.push({
-            posturl: url,
-            postdata: singlePostData,
-            commentators: commentatorsOnPost,
-            comments: commentsOnPost
-        })*/
-
-
 
 
 /*if (document.querySelector('._4zhc5.notranslate._lx2l2')) {
