@@ -12,6 +12,7 @@ module.exports = async (user) => {
             .click('._8imhp') //TODO what happens when there are too few posts?
             .wait(1)
             .evaluate(() => {
+                //does ._76rrx._yo2b4 exist? -> private profile = lets leave
                 return [...document.querySelectorAll('._8mlbc')]
                     .map((el, i) => {
                         return el.href;

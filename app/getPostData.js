@@ -94,9 +94,7 @@ module.exports = async (urls) => {
         //TODO: (low prio) get more comments
 
 
-        postData.push({
-            data: singlePostData
-        })
+        postData.push(singlePostData)
 
     }
     console.log('done getting post data')
