@@ -3,3 +3,4 @@ node_modules
 unused
 data
 npm-debug.log
+.env

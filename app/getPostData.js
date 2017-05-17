@@ -3,6 +3,7 @@ const cheerio = require('cheerio')
 
 const findTags = require('./findTags')
 const findUsers = require('./findUsers')
+const analyzeImage = require('./analyzeImage')
 
 
 //TODO: these should return a promise instead of callbacks
@@ -16,22 +17,32 @@ const getPostStats = (callback) => {
     } else if ($('._9jphp').length > 0) {
         //this is video/boomerang/gif(?) stuff -> no likes but # of plays are shown
         const plays = $('._9jphp span').text()
-        return callback({ 
+        return callback({
             type: 'video',
-            plays: plays 
+            plays: plays
         })
     } else {
         //over 10 likes -> instagram shows something like "liked xxx times"
         const likes = $('._tf9x3 span').text()
-        return callback({ 
+        return callback({
             type: 'post',
-            likes: likes 
+            likes: likes
         })
     }
 }
 
-const getImageData = (imageType, callback) => {
-    console.log(imageType)
+const getImageData = async (imageType, callback) => {
+    //differentiate between a "single image post" and video or multi image post
+    //TODO get ai tags for other posttypes
+    if (imageType === 'post') {
+        const imgSrc = $('._jjzlb img').attr('src')
+        const imageData = {
+            url: imgSrc,
+            imageRecognition: await analyzeImage(imgSrc)
+        }
+
+        return callback(imageData)
+    }
 }
 
 const getPostAge = (callback) => {
@@ -46,11 +57,11 @@ const getPostComments = async (callback) => {
 
     comment.userDescription = userDescription
 
-    if("undefined" !== typeof mentions){
+    if ("undefined" !== typeof mentions) {
         comment.mentions = mentions
     }
-    
-    if("undefined" !== typeof hashtags){
+
+    if ("undefined" !== typeof hashtags) {
         comment.hashtags = hashtags
     }
     return callback(comment)
@@ -83,21 +94,21 @@ module.exports = async (urls) => {
 
         singlePostData.postUrl = url
 
-        getPostStats ( (stats) => {
+        getPostStats((stats) => {
             singlePostData.postStats = stats
         })
 
-        getPostAge ( (age) => {
+        getPostAge((age) => {
             singlePostData.postAge = age
         })
 
-        getPostComments( (comments) =>{
+        getPostComments((comments) => {
             singlePostData.comments = comments
             //TODO: (low prio) get more comments
-        }) 
+        })
 
-        getImageData(singlePostData.postStats.type, (imageData)=>{
-            console.log(imageData)
+        getImageData(singlePostData.postStats.type, (imageData) => {
+            singlePostData.image = imageData
         })
 
 
